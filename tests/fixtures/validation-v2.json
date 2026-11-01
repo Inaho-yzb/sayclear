@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 2,
+  "scenarioId": "general",
+  "components": [
+    {
+      "id": "signup-validation",
+      "type": "validation",
+      "templateId": "builtin-validation",
+      "boundary": "internal",
+      "name": "注册信息校验",
+      "description": "检查注册申请，明确通过与不通过分支。",
+      "inputs": [
+        {
+          "id": "input",
+          "name": "注册申请",
+          "dataType": "object",
+          "description": ""
+        }
+      ],
+      "outputs": [
+        {
+          "id": "pass",
+          "name": "通过",
+          "dataType": "object",
+          "description": ""
+        },
+        {
+          "id": "fail",
+          "name": "不通过",
+          "dataType": "object",
+          "description": ""
+        }
+      ],
+      "ownerId": null,
+      "position": {
+        "x": 80,
+        "y": 80
+      },
+      "validation": {
+        "passCondition": "all",
+        "strategy": "collectAll",
+        "rules": [
+          {
+            "id": "email-format",
+            "name": "邮箱格式正确",
+            "condition": "邮箱符合有效的邮箱地址格式",
+            "when": "注册方式为邮箱",
+            "failureMessage": "请输入有效的邮箱地址"
+          },
+          {
+            "id": "password-length",
+            "name": "密码不少于 8 位",
+            "condition": "密码长度至少为 8 个字符",
+            "when": "",
+            "failureMessage": "密码至少需要 8 位"
+          },
+          {
+            "id": "agreement",
+            "name": "已同意用户协议",
+            "condition": "用户已勾选用户协议",
+            "when": "",
+            "failureMessage": "请先同意用户协议"
+          }
+        ]
+      }
+    }
+  ],
+  "connections": [],
+  "history": []
+}

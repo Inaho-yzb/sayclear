@@ -1,0 +1,39 @@
+[package]
+name = "say-clear"
+version = "0.1.0"
+description = "通过自然对话，把想法整理成清晰的需求文档。"
+authors = ["Say Clear"]
+edition = "2021"
+default-run = "say-clear"
+
+[[bin]]
+name = "sayclear"
+path = "src/bin/sayclear.rs"
+
+[lib]
+name = "say_clear_lib"
+crate-type = ["rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[features]
+e2e = ["dep:tauri-plugin-wdio", "dep:tauri-plugin-wdio-webdriver"]
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-clipboard-manager = "2"
+tauri-plugin-single-instance = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", default-features = false, features = ["std"] }
+tempfile = "3"
+tauri-plugin-wdio = { version = "1", optional = true }
+tauri-plugin-wdio-webdriver = { version = "1", optional = true }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

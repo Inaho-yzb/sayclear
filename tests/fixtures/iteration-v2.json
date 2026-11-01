@@ -1,0 +1,457 @@
+{
+  "schemaVersion": 2,
+  "scenarioId": "general",
+  "components": [
+    {
+      "id": "signup",
+      "type": "capability",
+      "boundary": "internal",
+      "templateId": "builtin-capability",
+      "name": "用户注册",
+      "description": "支持邮箱注册与手机号验证码注册。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 40,
+        "y": 40
+      }
+    },
+    {
+      "id": "visitor",
+      "type": "actor",
+      "boundary": "internal",
+      "templateId": "builtin-actor",
+      "name": "访客",
+      "description": "还没有账号，希望注册并开始使用。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 40,
+        "y": 290
+      }
+    },
+    {
+      "id": "signup-page",
+      "type": "ui",
+      "boundary": "internal",
+      "templateId": "builtin-ui",
+      "name": "注册页面",
+      "description": "保留邮箱注册，增加手机号、验证码输入与发送验证码入口。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 390,
+        "y": 290
+      }
+    },
+    {
+      "id": "create-user",
+      "type": "action",
+      "boundary": "internal",
+      "templateId": "builtin-action",
+      "name": "创建账号",
+      "description": "按注册方式校验邮箱密码或短信验证码，创建用户记录。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 740,
+        "y": 290
+      }
+    },
+    {
+      "id": "user-data",
+      "type": "data",
+      "boundary": "internal",
+      "templateId": "builtin-data",
+      "name": "用户资料",
+      "description": "字段：userId、email、phone、passwordHash；邮箱和手机号至少填写一项。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 1090,
+        "y": 290
+      }
+    },
+    {
+      "id": "email-rule",
+      "type": "rule",
+      "boundary": "internal",
+      "templateId": "builtin-rule",
+      "name": "邮箱唯一",
+      "description": "邮箱已被注册时，提示登录或找回账号。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 740,
+        "y": 40
+      }
+    },
+    {
+      "id": "sms",
+      "type": "service",
+      "boundary": "external",
+      "templateId": "builtin-service",
+      "name": "短信平台",
+      "description": "发送注册验证码，由第三方提供服务。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 40,
+        "y": 540
+      }
+    },
+    {
+      "id": "send-code",
+      "type": "action",
+      "boundary": "internal",
+      "templateId": "builtin-action",
+      "name": "发送验证码",
+      "description": "向手机号发送验证码，并限制重复发送频率。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 390,
+        "y": 540
+      }
+    },
+    {
+      "id": "code-rule",
+      "type": "rule",
+      "boundary": "internal",
+      "templateId": "builtin-rule",
+      "name": "验证码有效",
+      "description": "验证码未过期且匹配；校验成功后立即失效。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 740,
+        "y": 540
+      }
+    },
+    {
+      "id": "registered",
+      "type": "event",
+      "boundary": "internal",
+      "templateId": "builtin-event",
+      "name": "注册成功",
+      "description": "通知后续业务，前端引导用户进入首页。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 1090,
+        "y": 40
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "scope",
+      "name": "包含注册入口",
+      "type": "contains",
+      "sourceId": "signup",
+      "targetId": "signup-page",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "",
+      "protocol": "",
+      "condition": ""
+    },
+    {
+      "id": "visit",
+      "name": "访问注册",
+      "type": "control",
+      "sourceId": "visitor",
+      "targetId": "signup-page",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "",
+      "protocol": "",
+      "condition": ""
+    },
+    {
+      "id": "submit",
+      "name": "提交注册",
+      "type": "control",
+      "sourceId": "signup-page",
+      "targetId": "create-user",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "",
+      "protocol": "",
+      "condition": ""
+    },
+    {
+      "id": "check-email",
+      "name": "邮箱注册时校验",
+      "type": "constrains",
+      "sourceId": "email-rule",
+      "targetId": "create-user",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "",
+      "protocol": "",
+      "condition": ""
+    },
+    {
+      "id": "save-user",
+      "name": "写入用户",
+      "type": "writes",
+      "sourceId": "create-user",
+      "targetId": "user-data",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "",
+      "protocol": "",
+      "condition": ""
+    },
+    {
+      "id": "request-code",
+      "name": "请求验证码",
+      "type": "control",
+      "sourceId": "signup-page",
+      "targetId": "send-code",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "",
+      "protocol": "",
+      "condition": ""
+    },
+    {
+      "id": "call-sms",
+      "name": "调用短信服务",
+      "type": "calls",
+      "sourceId": "send-code",
+      "targetId": "sms",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "",
+      "protocol": "",
+      "condition": ""
+    },
+    {
+      "id": "check-code",
+      "name": "手机号注册时校验",
+      "type": "constrains",
+      "sourceId": "code-rule",
+      "targetId": "create-user",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "",
+      "protocol": "",
+      "condition": ""
+    },
+    {
+      "id": "emit-registered",
+      "name": "创建成功后发布",
+      "type": "event",
+      "sourceId": "create-user",
+      "targetId": "registered",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "",
+      "protocol": "",
+      "condition": ""
+    }
+  ],
+  "history": [],
+  "iteration": {
+    "id": "45f08b57-1789-4b92-80bb-b9f8db69e4e5",
+    "name": "增加手机号验证码注册",
+    "startedAt": "2026-10-31T09:39:56.013Z",
+    "baseline": {
+      "schemaVersion": 2,
+      "scenarioId": "general",
+      "components": [
+        {
+          "id": "signup",
+          "type": "capability",
+          "boundary": "internal",
+          "templateId": "builtin-capability",
+          "name": "用户注册",
+          "description": "通过邮箱创建账号，开始使用应用。",
+          "inputs": [],
+          "outputs": [],
+          "ownerId": null,
+          "position": {
+            "x": 40,
+            "y": 40
+          }
+        },
+        {
+          "id": "visitor",
+          "type": "actor",
+          "boundary": "internal",
+          "templateId": "builtin-actor",
+          "name": "访客",
+          "description": "还没有账号，希望注册并开始使用。",
+          "inputs": [],
+          "outputs": [],
+          "ownerId": null,
+          "position": {
+            "x": 40,
+            "y": 290
+          }
+        },
+        {
+          "id": "signup-page",
+          "type": "ui",
+          "boundary": "internal",
+          "templateId": "builtin-ui",
+          "name": "注册页面",
+          "description": "填写邮箱和密码，提交注册信息。",
+          "inputs": [],
+          "outputs": [],
+          "ownerId": null,
+          "position": {
+            "x": 390,
+            "y": 290
+          }
+        },
+        {
+          "id": "create-user",
+          "type": "action",
+          "boundary": "internal",
+          "templateId": "builtin-action",
+          "name": "创建账号",
+          "description": "校验注册信息，创建用户记录。",
+          "inputs": [],
+          "outputs": [],
+          "ownerId": null,
+          "position": {
+            "x": 740,
+            "y": 290
+          }
+        },
+        {
+          "id": "user-data",
+          "type": "data",
+          "boundary": "internal",
+          "templateId": "builtin-data",
+          "name": "用户资料",
+          "description": "字段：userId、email、passwordHash。",
+          "inputs": [],
+          "outputs": [],
+          "ownerId": null,
+          "position": {
+            "x": 1090,
+            "y": 290
+          }
+        },
+        {
+          "id": "email-rule",
+          "type": "rule",
+          "boundary": "internal",
+          "templateId": "builtin-rule",
+          "name": "邮箱唯一",
+          "description": "邮箱已被注册时，提示登录或找回账号。",
+          "inputs": [],
+          "outputs": [],
+          "ownerId": null,
+          "position": {
+            "x": 740,
+            "y": 40
+          }
+        },
+        {
+          "id": "welcome",
+          "type": "ui",
+          "boundary": "internal",
+          "templateId": "builtin-ui",
+          "name": "注册欢迎页",
+          "description": "注册成功后展示欢迎页面。",
+          "inputs": [],
+          "outputs": [],
+          "ownerId": null,
+          "position": {
+            "x": 1090,
+            "y": 540
+          }
+        }
+      ],
+      "connections": [
+        {
+          "id": "scope",
+          "name": "包含注册入口",
+          "type": "contains",
+          "sourceId": "signup",
+          "targetId": "signup-page",
+          "sourcePortId": null,
+          "targetPortId": null,
+          "description": "",
+          "protocol": "",
+          "condition": ""
+        },
+        {
+          "id": "visit",
+          "name": "访问注册",
+          "type": "control",
+          "sourceId": "visitor",
+          "targetId": "signup-page",
+          "sourcePortId": null,
+          "targetPortId": null,
+          "description": "",
+          "protocol": "",
+          "condition": ""
+        },
+        {
+          "id": "submit",
+          "name": "提交注册",
+          "type": "control",
+          "sourceId": "signup-page",
+          "targetId": "create-user",
+          "sourcePortId": null,
+          "targetPortId": null,
+          "description": "",
+          "protocol": "",
+          "condition": ""
+        },
+        {
+          "id": "check-email",
+          "name": "邮箱注册时校验",
+          "type": "constrains",
+          "sourceId": "email-rule",
+          "targetId": "create-user",
+          "sourcePortId": null,
+          "targetPortId": null,
+          "description": "",
+          "protocol": "",
+          "condition": ""
+        },
+        {
+          "id": "save-user",
+          "name": "写入用户",
+          "type": "writes",
+          "sourceId": "create-user",
+          "targetId": "user-data",
+          "sourcePortId": null,
+          "targetPortId": null,
+          "description": "",
+          "protocol": "",
+          "condition": ""
+        },
+        {
+          "id": "show-welcome",
+          "name": "注册成功",
+          "type": "control",
+          "sourceId": "create-user",
+          "targetId": "welcome",
+          "sourcePortId": null,
+          "targetPortId": null,
+          "description": "",
+          "protocol": "",
+          "condition": ""
+        }
+      ]
+    }
+  }
+}

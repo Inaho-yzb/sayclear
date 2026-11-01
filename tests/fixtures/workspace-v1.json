@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "activeProjectId": "fixture-project",
+  "projects": [
+    {
+      "id": "fixture-project",
+      "name": "兼容性验证 🚀",
+      "createdAt": "2026-10-31T00:00:00.000Z",
+      "updatedAt": "2026-10-31T00:00:00.000Z",
+      "revision": 2,
+      "messages": [
+        {
+          "id": "m1",
+          "role": "assistant",
+          "text": "补充建议",
+          "createdAt": "2026-10-31T00:00:00.000Z",
+          "proposal": {
+            "sectionId": "features",
+            "content": "支持导出",
+            "status": "accepted"
+          }
+        }
+      ],
+      "sections": [
+        {
+          "id": "overview",
+          "content": "通过对话整理需求。",
+          "confirmed": true
+        },
+        {
+          "id": "audience",
+          "content": "产品团队",
+          "confirmed": true
+        },
+        {
+          "id": "features",
+          "content": "编辑与确认需求\n支持导出",
+          "confirmed": false
+        },
+        {
+          "id": "flow",
+          "content": "讨论 → 确认",
+          "confirmed": false
+        },
+        {
+          "id": "acceptance",
+          "content": "",
+          "confirmed": false
+        }
+      ]
+    }
+  ]
+}

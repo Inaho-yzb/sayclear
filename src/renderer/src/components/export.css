@@ -1,0 +1,325 @@
+.modal:has(.export-form) {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.modal:has(.export-form) .modal-heading {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: 20px 0 13px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.export-intro {
+  margin-bottom: 17px;
+}
+.export-fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.export-fieldset legend {
+  padding: 0;
+  margin-bottom: 10px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+}
+.export-mode {
+  margin-bottom: 18px;
+}
+.export-mode-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.export-mode-options > label {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.export-mode-options input {
+  flex-shrink: 0;
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+}
+.export-mode-options svg {
+  flex-shrink: 0;
+}
+.export-mode-options strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 550;
+}
+.export-mode-options small {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.export-scope-note {
+  margin: 10px 0 0;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.export-scope-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.export-scope-option {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 14px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  color: var(--text-secondary);
+  background: var(--surface);
+  cursor: pointer;
+}
+.export-scope-option input {
+  grid-column: 3;
+  grid-row: 1;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.export-scope-option > svg {
+  grid-column: 1;
+  grid-row: 1;
+}
+.export-scope-option > strong {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 12px;
+  font-weight: 500;
+}
+.export-scope-option > span {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--muted);
+}
+.export-scope-option.selected,
+.export-mode-options > label.selected,
+.export-format-options > label.selected {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.export-scope-option:focus-within,
+.export-mode-options > label:focus-within,
+.export-format-options > label:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.export-history-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+.export-history-option.unavailable {
+  cursor: default;
+}
+.export-history-option.unavailable strong {
+  color: var(--muted);
+}
+.export-history-option input {
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+}
+.export-history-option strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+}
+.export-history-option small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.export-preview {
+  margin: 17px 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-soft);
+}
+.export-preview-heading {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+}
+.export-preview-heading strong {
+  font-weight: 600;
+}
+.export-preview-heading > span {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+}
+.export-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 17px 0 18px;
+}
+.export-stats > div + div {
+  border-left: 1px solid var(--line);
+  padding-left: 16px;
+}
+.export-stats dt {
+  color: var(--muted);
+  font-size: 11px;
+}
+.export-stats dd {
+  margin: 6px 0 0;
+  font-size: 22px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.export-file-list {
+  list-style: none;
+  margin: 0;
+  padding: 13px 0 0;
+}
+.export-package-files {
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+}
+.export-package-files > summary {
+  width: fit-content;
+  font-size: 11px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.export-package-files > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+.export-empty-state {
+  margin: 0 0 13px;
+  padding: 11px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.export-file-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.export-file-list code {
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.export-file-list span {
+  color: var(--text-secondary);
+}
+.export-preview-note {
+  margin: 13px 0 0;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.export-format-options {
+  display: flex;
+  gap: 10px;
+}
+.export-format-options > label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.export-format-options input {
+  margin: 0;
+  accent-color: var(--accent);
+}
+.export-format > p {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.export-fieldset:disabled label {
+  cursor: default;
+  opacity: 0.7;
+}
+.export-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-top: 16px;
+  padding: 13px 0 20px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.export-footer > span {
+  margin-right: auto;
+  color: var(--muted);
+  font-size: 11px;
+}
+.export-spinner {
+  animation: export-spin 1s linear infinite;
+}
+@keyframes export-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 620px) {
+  .export-scope-options,
+  .export-mode-options {
+    grid-template-columns: 1fr;
+  }
+  .export-scope-option {
+    padding: 11px 12px;
+  }
+  .export-scope-option > span {
+    grid-column: 2;
+  }
+  .export-file-list li {
+    grid-template-columns: 1fr;
+    gap: 1px;
+  }
+  .export-footer {
+    flex-wrap: wrap;
+  }
+  .export-footer > span {
+    flex-basis: 100%;
+  }
+}

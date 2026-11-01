@@ -1,0 +1,845 @@
+{
+  "schemaVersion": 2,
+  "activeNodeId": "registration-messaging",
+  "systems": [
+    {
+      "architecture": {
+        "schemaVersion": 2,
+        "id": "fixture-project",
+        "name": "Web 应用 · 注册迭代",
+        "description": "现状支持邮箱注册；本次迭代增加手机号验证码注册，并调整注册成功后的引导。",
+        "createdAt": "2026-10-31T09:52:14.562Z",
+        "updatedAt": "2026-10-31T10:11:41.591Z",
+        "kind": "application",
+        "boards": [
+          {
+            "id": "registration-messaging",
+            "name": "注册消息与账户初始化",
+            "description": "通过「用户注册」引用节点连接注册功能图，使用其公开的「注册成功」事件驱动账户初始化。来源仍在迭代中；点击引用底部可查看来源。",
+            "kind": "aggregate",
+            "parentId": "fixture-project"
+          }
+        ]
+      },
+      "contents": [
+        {
+          "id": "fixture-project",
+          "createdAt": "2026-10-31T09:52:14.562Z",
+          "updatedAt": "2026-10-31T09:52:14.562Z",
+          "revision": 2,
+          "diagram": {
+            "schemaVersion": 2,
+            "scenarioId": "general",
+            "components": [
+              {
+                "id": "signup",
+                "type": "capability",
+                "boundary": "internal",
+                "templateId": "builtin-capability",
+                "exposed": true,
+                "name": "用户注册",
+                "description": "支持邮箱注册与手机号验证码注册。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 40,
+                  "y": 40
+                }
+              },
+              {
+                "id": "visitor",
+                "type": "actor",
+                "boundary": "internal",
+                "templateId": "builtin-actor",
+                "name": "访客",
+                "description": "还没有账号，希望注册并开始使用。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 40,
+                  "y": 290
+                }
+              },
+              {
+                "id": "signup-page",
+                "type": "ui",
+                "boundary": "internal",
+                "templateId": "builtin-ui",
+                "name": "注册页面",
+                "description": "保留邮箱注册，增加手机号、验证码输入与发送验证码入口。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 390,
+                  "y": 290
+                }
+              },
+              {
+                "id": "create-user",
+                "type": "action",
+                "boundary": "internal",
+                "templateId": "builtin-action",
+                "name": "创建账号",
+                "description": "按注册方式校验邮箱密码或短信验证码，创建用户记录。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 740,
+                  "y": 290
+                }
+              },
+              {
+                "id": "user-data",
+                "type": "data",
+                "boundary": "internal",
+                "templateId": "builtin-data",
+                "name": "用户资料",
+                "description": "字段：userId、email、phone、passwordHash；邮箱和手机号至少填写一项。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 1090,
+                  "y": 290
+                }
+              },
+              {
+                "id": "email-rule",
+                "type": "rule",
+                "boundary": "internal",
+                "templateId": "builtin-rule",
+                "name": "邮箱唯一",
+                "description": "邮箱已被注册时，提示登录或找回账号。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 740,
+                  "y": 40
+                }
+              },
+              {
+                "id": "sms",
+                "type": "service",
+                "boundary": "external",
+                "templateId": "builtin-service",
+                "name": "短信平台",
+                "description": "发送注册验证码，由第三方提供服务。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 40,
+                  "y": 540
+                }
+              },
+              {
+                "id": "send-code",
+                "type": "action",
+                "boundary": "internal",
+                "templateId": "builtin-action",
+                "name": "发送验证码",
+                "description": "向手机号发送验证码，并限制重复发送频率。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 390,
+                  "y": 540
+                }
+              },
+              {
+                "id": "code-rule",
+                "type": "rule",
+                "boundary": "internal",
+                "templateId": "builtin-rule",
+                "name": "验证码有效",
+                "description": "验证码未过期且匹配；校验成功后立即失效。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 740,
+                  "y": 540
+                }
+              },
+              {
+                "id": "registered",
+                "type": "event",
+                "boundary": "internal",
+                "templateId": "builtin-event",
+                "exposed": true,
+                "name": "注册成功",
+                "description": "通知后续业务，前端引导用户进入首页。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 1090,
+                  "y": 40
+                }
+              }
+            ],
+            "connections": [
+              {
+                "id": "scope",
+                "name": "包含注册入口",
+                "type": "contains",
+                "sourceId": "signup",
+                "targetId": "signup-page",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "",
+                "protocol": "",
+                "condition": ""
+              },
+              {
+                "id": "visit",
+                "name": "访问注册",
+                "type": "control",
+                "sourceId": "visitor",
+                "targetId": "signup-page",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "",
+                "protocol": "",
+                "condition": ""
+              },
+              {
+                "id": "submit",
+                "name": "提交注册",
+                "type": "control",
+                "sourceId": "signup-page",
+                "targetId": "create-user",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "",
+                "protocol": "",
+                "condition": ""
+              },
+              {
+                "id": "check-email",
+                "name": "邮箱注册时校验",
+                "type": "constrains",
+                "sourceId": "email-rule",
+                "targetId": "create-user",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "",
+                "protocol": "",
+                "condition": ""
+              },
+              {
+                "id": "save-user",
+                "name": "写入用户",
+                "type": "writes",
+                "sourceId": "create-user",
+                "targetId": "user-data",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "",
+                "protocol": "",
+                "condition": ""
+              },
+              {
+                "id": "request-code",
+                "name": "请求验证码",
+                "type": "control",
+                "sourceId": "signup-page",
+                "targetId": "send-code",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "",
+                "protocol": "",
+                "condition": ""
+              },
+              {
+                "id": "call-sms",
+                "name": "调用短信服务",
+                "type": "calls",
+                "sourceId": "send-code",
+                "targetId": "sms",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "",
+                "protocol": "",
+                "condition": ""
+              },
+              {
+                "id": "check-code",
+                "name": "手机号注册时校验",
+                "type": "constrains",
+                "sourceId": "code-rule",
+                "targetId": "create-user",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "",
+                "protocol": "",
+                "condition": ""
+              },
+              {
+                "id": "emit-registered",
+                "name": "创建成功后发布",
+                "type": "event",
+                "sourceId": "create-user",
+                "targetId": "registered",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "",
+                "protocol": "",
+                "condition": ""
+              }
+            ],
+            "iteration": {
+              "id": "45f08b57-1789-4b92-80bb-b9f8db69e4e5",
+              "name": "增加手机号验证码注册",
+              "startedAt": "2026-10-31T09:39:56.013Z",
+              "baseline": {
+                "schemaVersion": 2,
+                "scenarioId": "general",
+                "components": [
+                  {
+                    "id": "signup",
+                    "type": "capability",
+                    "boundary": "internal",
+                    "templateId": "builtin-capability",
+                    "name": "用户注册",
+                    "description": "通过邮箱创建账号，开始使用应用。",
+                    "inputs": [],
+                    "outputs": [],
+                    "ownerId": null,
+                    "position": {
+                      "x": 40,
+                      "y": 40
+                    }
+                  },
+                  {
+                    "id": "visitor",
+                    "type": "actor",
+                    "boundary": "internal",
+                    "templateId": "builtin-actor",
+                    "name": "访客",
+                    "description": "还没有账号，希望注册并开始使用。",
+                    "inputs": [],
+                    "outputs": [],
+                    "ownerId": null,
+                    "position": {
+                      "x": 40,
+                      "y": 290
+                    }
+                  },
+                  {
+                    "id": "signup-page",
+                    "type": "ui",
+                    "boundary": "internal",
+                    "templateId": "builtin-ui",
+                    "name": "注册页面",
+                    "description": "填写邮箱和密码，提交注册信息。",
+                    "inputs": [],
+                    "outputs": [],
+                    "ownerId": null,
+                    "position": {
+                      "x": 390,
+                      "y": 290
+                    }
+                  },
+                  {
+                    "id": "create-user",
+                    "type": "action",
+                    "boundary": "internal",
+                    "templateId": "builtin-action",
+                    "name": "创建账号",
+                    "description": "校验注册信息，创建用户记录。",
+                    "inputs": [],
+                    "outputs": [],
+                    "ownerId": null,
+                    "position": {
+                      "x": 740,
+                      "y": 290
+                    }
+                  },
+                  {
+                    "id": "user-data",
+                    "type": "data",
+                    "boundary": "internal",
+                    "templateId": "builtin-data",
+                    "name": "用户资料",
+                    "description": "字段：userId、email、passwordHash。",
+                    "inputs": [],
+                    "outputs": [],
+                    "ownerId": null,
+                    "position": {
+                      "x": 1090,
+                      "y": 290
+                    }
+                  },
+                  {
+                    "id": "email-rule",
+                    "type": "rule",
+                    "boundary": "internal",
+                    "templateId": "builtin-rule",
+                    "name": "邮箱唯一",
+                    "description": "邮箱已被注册时，提示登录或找回账号。",
+                    "inputs": [],
+                    "outputs": [],
+                    "ownerId": null,
+                    "position": {
+                      "x": 740,
+                      "y": 40
+                    }
+                  },
+                  {
+                    "id": "welcome",
+                    "type": "ui",
+                    "boundary": "internal",
+                    "templateId": "builtin-ui",
+                    "name": "注册欢迎页",
+                    "description": "注册成功后展示欢迎页面。",
+                    "inputs": [],
+                    "outputs": [],
+                    "ownerId": null,
+                    "position": {
+                      "x": 1090,
+                      "y": 540
+                    }
+                  }
+                ],
+                "connections": [
+                  {
+                    "id": "scope",
+                    "name": "包含注册入口",
+                    "type": "contains",
+                    "sourceId": "signup",
+                    "targetId": "signup-page",
+                    "sourcePortId": null,
+                    "targetPortId": null,
+                    "description": "",
+                    "protocol": "",
+                    "condition": ""
+                  },
+                  {
+                    "id": "visit",
+                    "name": "访问注册",
+                    "type": "control",
+                    "sourceId": "visitor",
+                    "targetId": "signup-page",
+                    "sourcePortId": null,
+                    "targetPortId": null,
+                    "description": "",
+                    "protocol": "",
+                    "condition": ""
+                  },
+                  {
+                    "id": "submit",
+                    "name": "提交注册",
+                    "type": "control",
+                    "sourceId": "signup-page",
+                    "targetId": "create-user",
+                    "sourcePortId": null,
+                    "targetPortId": null,
+                    "description": "",
+                    "protocol": "",
+                    "condition": ""
+                  },
+                  {
+                    "id": "check-email",
+                    "name": "邮箱注册时校验",
+                    "type": "constrains",
+                    "sourceId": "email-rule",
+                    "targetId": "create-user",
+                    "sourcePortId": null,
+                    "targetPortId": null,
+                    "description": "",
+                    "protocol": "",
+                    "condition": ""
+                  },
+                  {
+                    "id": "save-user",
+                    "name": "写入用户",
+                    "type": "writes",
+                    "sourceId": "create-user",
+                    "targetId": "user-data",
+                    "sourcePortId": null,
+                    "targetPortId": null,
+                    "description": "",
+                    "protocol": "",
+                    "condition": ""
+                  },
+                  {
+                    "id": "show-welcome",
+                    "name": "注册成功",
+                    "type": "control",
+                    "sourceId": "create-user",
+                    "targetId": "welcome",
+                    "sourcePortId": null,
+                    "targetPortId": null,
+                    "description": "",
+                    "protocol": "",
+                    "condition": ""
+                  }
+                ]
+              }
+            },
+            "history": []
+          },
+          "messages": [
+            {
+              "id": "m1",
+              "role": "assistant",
+              "text": "补充建议",
+              "createdAt": "2026-10-31T00:00:00.000Z",
+              "proposal": {
+                "sectionId": "features",
+                "content": "支持导出",
+                "status": "accepted"
+              }
+            }
+          ],
+          "sections": [
+            {
+              "id": "overview",
+              "content": "通过对话整理需求。",
+              "confirmed": true
+            },
+            {
+              "id": "audience",
+              "content": "产品团队",
+              "confirmed": true
+            },
+            {
+              "id": "features",
+              "content": "编辑与确认需求\n支持导出",
+              "confirmed": false
+            },
+            {
+              "id": "flow",
+              "content": "讨论 → 确认",
+              "confirmed": false
+            },
+            {
+              "id": "acceptance",
+              "content": "",
+              "confirmed": false
+            }
+          ]
+        },
+        {
+          "id": "registration-messaging",
+          "createdAt": "2026-10-31T10:11:41.591Z",
+          "updatedAt": "2026-10-31T10:25:57.661Z",
+          "revision": 1,
+          "diagram": {
+            "schemaVersion": 2,
+            "scenarioId": "general",
+            "components": [
+              {
+                "id": "registration-reference",
+                "type": "capability",
+                "boundary": "internal",
+                "templateId": "builtin-capability",
+                "exposed": false,
+                "reference": {
+                  "boardId": "fixture-project",
+                  "componentId": "signup",
+                  "version": "iteration",
+                  "iterationId": "45f08b57-1789-4b92-80bb-b9f8db69e4e5",
+                  "outputIds": ["registered"],
+                  "definitionHash": "b814a36edf4533f4"
+                },
+                "metadata": {},
+                "name": "用户注册",
+                "description": "支持邮箱注册与手机号验证码注册。",
+                "inputs": [],
+                "outputs": [
+                  {
+                    "id": "export-423c9cc6f45c3472",
+                    "name": "注册成功",
+                    "dataType": "event",
+                    "description": "通知后续业务，前端引导用户进入首页。"
+                  }
+                ],
+                "ownerId": null,
+                "position": {
+                  "x": 40,
+                  "y": 100
+                }
+              },
+              {
+                "id": "account-service",
+                "type": "service",
+                "boundary": "internal",
+                "templateId": "builtin-service",
+                "metadata": {
+                  "technology": "独立服务；技术栈不限定",
+                  "responsibility": "账户资料与账户初始化"
+                },
+                "name": "账户系统",
+                "description": "独立维护账户资料，接收注册消息后执行账户初始化。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 1060,
+                  "y": 390
+                }
+              },
+              {
+                "id": "publish-registration",
+                "type": "action",
+                "boundary": "internal",
+                "templateId": "builtin-action",
+                "metadata": {
+                  "executor": "注册服务；通道 user.registered",
+                  "failure": "发布失败需重试；可靠投递方案（如 Outbox）待确定"
+                },
+                "name": "发布注册消息",
+                "description": "将 UserRegistered 事件投递到注册事件通道。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 380,
+                  "y": 100
+                }
+              },
+              {
+                "id": "registration-mq",
+                "type": "service",
+                "boundary": "internal",
+                "templateId": "builtin-service",
+                "metadata": {
+                  "responsibility": "注册事件的异步传输与重投递",
+                  "technology": "MQ，具体产品待选；示例通道 user.registered"
+                },
+                "name": "消息队列",
+                "description": "通道 user.registered；缓冲消息并向订阅者异步投递。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": null,
+                "position": {
+                  "x": 720,
+                  "y": 100
+                }
+              },
+              {
+                "id": "consume-registration",
+                "type": "action",
+                "boundary": "internal",
+                "templateId": "builtin-action",
+                "metadata": {
+                  "executor": "账户系统；订阅 / 消费组 account-init",
+                  "failure": "处理成功后确认消息；失败重试，重复投递按 eventId / userId 幂等处理"
+                },
+                "name": "消费注册消息",
+                "description": "账户系统监听 user.registered，收到消息后触发初始化。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": "account-service",
+                "position": {
+                  "x": 720,
+                  "y": 390
+                }
+              },
+              {
+                "id": "initialize-account",
+                "type": "action",
+                "boundary": "internal",
+                "templateId": "builtin-action",
+                "metadata": {
+                  "executor": "账户系统",
+                  "failure": "初始化失败不确认成功；重试仍失败的消息进入异常处理"
+                },
+                "name": "初始化账户",
+                "description": "根据 userId 建立账户；重复消费不重复创建。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": "account-service",
+                "position": {
+                  "x": 380,
+                  "y": 390
+                }
+              },
+              {
+                "id": "account-data",
+                "type": "data",
+                "boundary": "internal",
+                "templateId": "builtin-data",
+                "metadata": {
+                  "identity": "accountId；userId 唯一，用于幂等创建",
+                  "fields": "accountId、userId、status、createdAt"
+                },
+                "name": "账户信息",
+                "description": "示例字段：accountId、userId、status、createdAt。",
+                "inputs": [],
+                "outputs": [],
+                "ownerId": "account-service",
+                "position": {
+                  "x": 40,
+                  "y": 390
+                }
+              }
+            ],
+            "connections": [
+              {
+                "id": "trigger-publish",
+                "name": "注册成功",
+                "type": "event",
+                "sourceId": "registration-reference",
+                "targetId": "publish-registration",
+                "sourcePortId": "export-423c9cc6f45c3472",
+                "targetPortId": null,
+                "description": "发布动作响应注册成功事件。",
+                "protocol": "",
+                "condition": ""
+              },
+              {
+                "id": "publish-to-mq",
+                "name": "发布消息",
+                "type": "event",
+                "sourceId": "publish-registration",
+                "targetId": "registration-mq",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "事件名 UserRegistered v1；通道 user.registered。",
+                "protocol": "异步消息",
+                "condition": "用户记录已提交"
+              },
+              {
+                "id": "mq-to-account",
+                "name": "异步投递",
+                "type": "event",
+                "sourceId": "registration-mq",
+                "targetId": "consume-registration",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "账户系统监听注册事件通道；订阅 / 消费组 account-init。",
+                "protocol": "异步消息",
+                "condition": "消息到达账户系统订阅"
+              },
+              {
+                "id": "consume-to-init",
+                "name": "触发处理",
+                "type": "control",
+                "sourceId": "consume-registration",
+                "targetId": "initialize-account",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "消费动作校验消息后执行账户初始化；成功后确认消息。",
+                "protocol": "",
+                "condition": "消息格式和版本受支持"
+              },
+              {
+                "id": "write-account",
+                "name": "写入账户",
+                "type": "writes",
+                "sourceId": "initialize-account",
+                "targetId": "account-data",
+                "sourcePortId": null,
+                "targetPortId": null,
+                "description": "以 userId 为唯一约束建立账户；重复消息不重复创建。",
+                "protocol": "",
+                "condition": "账户不存在"
+              }
+            ],
+            "iteration": {
+              "id": "iteration-registration-messaging",
+              "name": "注册成功后异步初始化账户",
+              "startedAt": "2026-10-31T10:11:41.591Z",
+              "baseline": {
+                "schemaVersion": 2,
+                "scenarioId": "general",
+                "components": [
+                  {
+                    "id": "registration-reference",
+                    "type": "capability",
+                    "boundary": "internal",
+                    "templateId": "builtin-capability",
+                    "exposed": false,
+                    "reference": {
+                      "boardId": "fixture-project",
+                      "componentId": "signup",
+                      "version": "iteration",
+                      "iterationId": "45f08b57-1789-4b92-80bb-b9f8db69e4e5",
+                      "outputIds": ["registered"],
+                      "definitionHash": "b814a36edf4533f4"
+                    },
+                    "metadata": {},
+                    "name": "用户注册",
+                    "description": "支持邮箱注册与手机号验证码注册。",
+                    "inputs": [],
+                    "outputs": [
+                      {
+                        "id": "export-423c9cc6f45c3472",
+                        "name": "注册成功",
+                        "dataType": "event",
+                        "description": "通知后续业务，前端引导用户进入首页。"
+                      }
+                    ],
+                    "ownerId": null,
+                    "position": {
+                      "x": 40,
+                      "y": 100
+                    }
+                  },
+                  {
+                    "id": "account-service",
+                    "type": "service",
+                    "boundary": "internal",
+                    "templateId": "builtin-service",
+                    "metadata": {
+                      "technology": "独立服务；技术栈不限定",
+                      "responsibility": "账户资料与账户初始化"
+                    },
+                    "name": "账户系统",
+                    "description": "独立维护账户资料，接收注册消息后执行账户初始化。",
+                    "inputs": [],
+                    "outputs": [],
+                    "ownerId": null,
+                    "position": {
+                      "x": 1060,
+                      "y": 390
+                    }
+                  }
+                ],
+                "connections": []
+              }
+            },
+            "history": []
+          },
+          "messages": [],
+          "sections": [
+            {
+              "id": "overview",
+              "content": "聚焦注册成功后的异步协同：注册服务发布消息，账户系统监听并初始化账户。这是设计示例，消息通道与字段采用示例值。原注册画板保持独立。",
+              "confirmed": false
+            },
+            {
+              "id": "audience",
+              "content": "产品、后端研发、测试",
+              "confirmed": false
+            },
+            {
+              "id": "features",
+              "content": "新增发布注册消息、消息队列、消费注册消息、初始化账户与账户信息。服务归属显示在组件底部。",
+              "confirmed": false
+            },
+            {
+              "id": "flow",
+              "content": "创建账号 → 注册成功 → 发布注册消息 → 消息队列 → 消费注册消息 → 初始化账户 → 账户信息。事件传递使用虚线；执行顺序和写入使用实线。",
+              "confirmed": false
+            },
+            {
+              "id": "acceptance",
+              "content": "注册成功后产生消息；账户系统收到消息后初始化账户。相同用户重复消息不重复建账户。失败重试与可靠发布方案仍需详细设计。",
+              "confirmed": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

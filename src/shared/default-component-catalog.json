@@ -1,0 +1,374 @@
+{
+  "scenarios": [
+    {
+      "id": "general",
+      "name": "Web 应用",
+      "description": "描述系统的能力、流程与业务逻辑，在现状之上设计每一次迭代。",
+      "components": [
+        {
+          "id": "builtin-actor",
+          "name": "角色",
+          "type": "actor",
+          "description": "谁在使用系统，承担什么职责？",
+          "inputs": [],
+          "outputs": [],
+          "fields": [
+            {
+              "id": "responsibility",
+              "name": "职责",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "goal",
+              "name": "使用目标",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-capability",
+          "name": "能力",
+          "type": "capability",
+          "description": "系统提供什么能力，覆盖哪些业务范围？",
+          "inputs": [],
+          "outputs": [],
+          "fields": [
+            {
+              "id": "outcome",
+              "name": "预期结果",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "scope",
+              "name": "业务范围",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-ui",
+          "name": "交互界面",
+          "type": "ui",
+          "description": "用户看到或操作的页面、表单、弹窗与反馈。",
+          "inputs": [
+            {
+              "id": "ui-input-0",
+              "name": "展示数据",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "outputs": [
+            {
+              "id": "ui-output-0",
+              "name": "用户输入",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "fields": [
+            {
+              "id": "route",
+              "name": "页面路径",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "interaction",
+              "name": "交互说明",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-action",
+          "name": "行为",
+          "type": "action",
+          "description": "用户或系统执行的动作，描述处理步骤与异常路径。",
+          "inputs": [
+            {
+              "id": "action-input-0",
+              "name": "处理输入",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "outputs": [
+            {
+              "id": "action-output-0",
+              "name": "处理结果",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "fields": [
+            {
+              "id": "executor",
+              "name": "执行方",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "failure",
+              "name": "异常处理",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-rule",
+          "name": "规则",
+          "type": "rule",
+          "description": "约束什么对象，在什么条件下允许或拒绝？",
+          "inputs": [],
+          "outputs": [],
+          "fields": [
+            {
+              "id": "expression",
+              "name": "判断条件",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "failure",
+              "name": "不满足时的处理",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-validation",
+          "name": "校验",
+          "type": "validation",
+          "description": "按顺序检查规则，根据整体通过条件进入通过或不通过分支。",
+          "inputs": [
+            {
+              "id": "validation-input",
+              "name": "待校验数据",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "outputs": [
+            {
+              "id": "validation-pass",
+              "name": "通过",
+              "dataType": "object",
+              "description": "满足整体通过条件"
+            },
+            {
+              "id": "validation-fail",
+              "name": "不通过",
+              "dataType": "object",
+              "description": "不满足整体通过条件或没有适用规则"
+            }
+          ],
+          "fields": []
+        },
+        {
+          "id": "builtin-data",
+          "name": "数据对象",
+          "type": "data",
+          "description": "业务信息的结构、字段与含义。",
+          "inputs": [],
+          "outputs": [],
+          "fields": [
+            {
+              "id": "fields",
+              "name": "字段定义",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "identity",
+              "name": "唯一标识",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-state",
+          "name": "状态",
+          "type": "state",
+          "description": "业务对象所处的阶段，以及进入和退出条件。",
+          "inputs": [],
+          "outputs": [],
+          "fields": [
+            {
+              "id": "subject",
+              "name": "所属业务对象",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "entry",
+              "name": "进入条件",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-event",
+          "name": "事件",
+          "type": "event",
+          "description": "发生了什么，由谁产生，谁需要响应？",
+          "inputs": [],
+          "outputs": [],
+          "fields": [
+            {
+              "id": "payload",
+              "name": "事件内容",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "timing",
+              "name": "触发时机",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-api",
+          "name": "接口",
+          "type": "api",
+          "description": "前后端或系统之间的请求、响应与错误契约。",
+          "inputs": [
+            {
+              "id": "api-input-0",
+              "name": "请求",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "outputs": [
+            {
+              "id": "api-output-0",
+              "name": "响应",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "fields": [
+            {
+              "id": "endpoint",
+              "name": "方法与路径",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "errors",
+              "name": "错误约定",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-service",
+          "name": "服务",
+          "type": "service",
+          "description": "承担一组职责的软件单元，可标记为系统内部或外部。",
+          "inputs": [
+            {
+              "id": "service-input-0",
+              "name": "请求",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "outputs": [
+            {
+              "id": "service-output-0",
+              "name": "结果",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "fields": [
+            {
+              "id": "responsibility",
+              "name": "服务职责",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "technology",
+              "name": "技术选型",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "id": "builtin-store",
+          "name": "存储",
+          "type": "store",
+          "description": "业务数据的保存位置与访问方式。",
+          "inputs": [
+            {
+              "id": "store-input-0",
+              "name": "写入数据",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "outputs": [
+            {
+              "id": "store-output-0",
+              "name": "读取数据",
+              "dataType": "object",
+              "description": ""
+            }
+          ],
+          "fields": [
+            {
+              "id": "technology",
+              "name": "存储技术",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            },
+            {
+              "id": "content",
+              "name": "存储内容",
+              "type": "text",
+              "required": false,
+              "defaultValue": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "id": "form",
+      "type": "ui",
+      "name": "注册表单",
+      "description": "",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "request",
+          "name": "request",
+          "dataType": "object",
+          "description": ""
+        }
+      ],
+      "ownerId": null,
+      "position": {
+        "x": 40,
+        "y": 100
+      },
+      "boundary": "internal",
+      "templateId": "builtin-ui"
+    },
+    {
+      "id": "store",
+      "type": "store",
+      "name": "用户库",
+      "description": "",
+      "inputs": [
+        {
+          "id": "record",
+          "name": "record",
+          "dataType": "object",
+          "description": ""
+        }
+      ],
+      "outputs": [
+        {
+          "id": "id",
+          "name": "id",
+          "dataType": "object",
+          "description": ""
+        }
+      ],
+      "ownerId": null,
+      "position": {
+        "x": 400,
+        "y": 100
+      },
+      "boundary": "internal",
+      "templateId": "builtin-store"
+    }
+  ],
+  "connections": [
+    {
+      "id": "submit",
+      "name": "保存用户",
+      "type": "data",
+      "sourceId": "form",
+      "targetId": "store",
+      "sourcePortId": "request",
+      "targetPortId": "record",
+      "description": "保存经过校验的用户资料",
+      "protocol": "HTTPS",
+      "condition": "校验通过"
+    }
+  ],
+  "scenarioId": "general",
+  "history": []
+}

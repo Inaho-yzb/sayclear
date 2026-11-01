@@ -1,0 +1,30 @@
+fn main() {
+    tauri_build::try_build(tauri_build::Attributes::new().app_manifest(
+        tauri_build::AppManifest::new().commands(&[
+            "load_ai_settings",
+            "save_ai_settings",
+            "check_ai_tool",
+            "run_ai_turn",
+            "cancel_ai_turn",
+            "execute_graph_command",
+            "set_cli_ready",
+            "complete_cli_request",
+            "load_workspace",
+            "save_workspace",
+            "inspect_git_repository",
+            "resolve_git_repository",
+            "choose_git_repository",
+            "create_git_iteration",
+            "load_history",
+            "validate_catalog",
+            "delete_system",
+            "get_data_directory",
+            "choose_data_directory",
+            "export_markdown",
+            "export_bundle",
+            "copy_text",
+            "app_platform",
+        ]),
+    ))
+    .expect("failed to build Tauri app");
+}

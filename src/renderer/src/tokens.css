@@ -1,0 +1,31 @@
+:root {
+  color-scheme: light;
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'PingFang SC', 'Segoe UI',
+    'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', Consolas, monospace;
+  --canvas: #fafbfc;
+  --sidebar: #f5f6f8;
+  --surface: #ffffff;
+  --surface-soft: #f7f8fa;
+  --surface-hover: #eceff3;
+  --ink: #272d38;
+  --text-secondary: #586374;
+  --muted: #606d7e;
+  --subtle: #8b95a4;
+  --primary: #303846;
+  --primary-hover: #202733;
+  --accent: #526bab;
+  --accent-hover: #40588f;
+  --accent-soft: #ebf0fa;
+  --accent-line: #cbd6ed;
+  --line: #e4e7ed;
+  --line-strong: #d1d7e0;
+  --focus-ring: #526bab26;
+  --shadow-sm: 0 2px 6px #202b4006, 0 1px 2px #202b4005;
+  --shadow-float: 0 8px 24px #202b400a, 0 2px 6px #202b4005;
+  --relation-data: #637fbc;
+  --relation-control: #7c8595;
+  --relation-dependency: #ad8956;
+  --relation-event: #9680b5;
+}

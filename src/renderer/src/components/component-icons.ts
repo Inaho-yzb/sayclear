@@ -1,0 +1,28 @@
+import {
+  UserRound,
+  Layers,
+  AppWindow,
+  Play,
+  ShieldCheck,
+  ListChecks,
+  Braces,
+  CircleDot,
+  Zap,
+  Cable,
+  Boxes,
+  Database,
+} from 'lucide-react'
+export const componentIcons = {
+  actor: UserRound,
+  capability: Layers,
+  ui: AppWindow,
+  action: Play,
+  rule: ShieldCheck,
+  validation: ListChecks,
+  data: Braces,
+  state: CircleDot,
+  event: Zap,
+  api: Cable,
+  service: Boxes,
+  store: Database,
+}

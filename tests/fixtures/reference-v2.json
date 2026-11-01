@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 2,
+  "scenarioId": "general",
+  "components": [
+    {
+      "id": "registration-reference",
+      "type": "capability",
+      "boundary": "internal",
+      "templateId": "builtin-capability",
+      "exposed": false,
+      "reference": {
+        "boardId": "fixture-project",
+        "componentId": "signup",
+        "version": "iteration",
+        "iterationId": "45f08b57-1789-4b92-80bb-b9f8db69e4e5",
+        "outputIds": ["registered"],
+        "definitionHash": "b814a36edf4533f4"
+      },
+      "metadata": {},
+      "name": "用户注册",
+      "description": "支持邮箱注册与手机号验证码注册。",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "export-423c9cc6f45c3472",
+          "name": "注册成功",
+          "dataType": "event",
+          "description": "通知后续业务，前端引导用户进入首页。"
+        }
+      ],
+      "ownerId": null,
+      "position": {
+        "x": 40,
+        "y": 100
+      }
+    },
+    {
+      "id": "account-service",
+      "type": "service",
+      "templateId": "builtin-service",
+      "metadata": {
+        "technology": "独立服务；技术栈不限定",
+        "responsibility": "账户资料与账户初始化"
+      },
+      "boundary": "internal",
+      "name": "账户系统",
+      "description": "独立维护账户资料，接收注册消息后执行账户初始化。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 1060,
+        "y": 390
+      }
+    },
+    {
+      "id": "publish-registration",
+      "type": "action",
+      "templateId": "builtin-action",
+      "metadata": {
+        "executor": "注册服务；通道 user.registered",
+        "failure": "发布失败需重试；可靠投递方案（如 Outbox）待确定"
+      },
+      "boundary": "internal",
+      "name": "发布注册消息",
+      "description": "将 UserRegistered 事件投递到注册事件通道。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 380,
+        "y": 100
+      }
+    },
+    {
+      "id": "registration-mq",
+      "type": "service",
+      "templateId": "builtin-service",
+      "metadata": {
+        "responsibility": "注册事件的异步传输与重投递",
+        "technology": "MQ，具体产品待选；示例通道 user.registered"
+      },
+      "boundary": "internal",
+      "name": "消息队列",
+      "description": "通道 user.registered；缓冲消息并向订阅者异步投递。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": null,
+      "position": {
+        "x": 720,
+        "y": 100
+      }
+    },
+    {
+      "id": "consume-registration",
+      "type": "action",
+      "templateId": "builtin-action",
+      "metadata": {
+        "executor": "账户系统；订阅 / 消费组 account-init",
+        "failure": "处理成功后确认消息；失败重试，重复投递按 eventId / userId 幂等处理"
+      },
+      "boundary": "internal",
+      "name": "消费注册消息",
+      "description": "账户系统监听 user.registered，收到消息后触发初始化。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": "account-service",
+      "position": {
+        "x": 720,
+        "y": 390
+      }
+    },
+    {
+      "id": "initialize-account",
+      "type": "action",
+      "templateId": "builtin-action",
+      "metadata": {
+        "executor": "账户系统",
+        "failure": "初始化失败不确认成功；重试仍失败的消息进入异常处理"
+      },
+      "boundary": "internal",
+      "name": "初始化账户",
+      "description": "根据 userId 建立账户；重复消费不重复创建。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": "account-service",
+      "position": {
+        "x": 380,
+        "y": 390
+      }
+    },
+    {
+      "id": "account-data",
+      "type": "data",
+      "templateId": "builtin-data",
+      "metadata": {
+        "identity": "accountId；userId 唯一，用于幂等创建",
+        "fields": "accountId、userId、status、createdAt"
+      },
+      "boundary": "internal",
+      "name": "账户信息",
+      "description": "示例字段：accountId、userId、status、createdAt。",
+      "inputs": [],
+      "outputs": [],
+      "ownerId": "account-service",
+      "position": {
+        "x": 40,
+        "y": 390
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "trigger-publish",
+      "name": "注册成功",
+      "type": "event",
+      "sourceId": "registration-reference",
+      "targetId": "publish-registration",
+      "sourcePortId": "export-423c9cc6f45c3472",
+      "targetPortId": null,
+      "description": "发布动作响应注册成功事件。",
+      "protocol": "",
+      "condition": ""
+    },
+    {
+      "id": "publish-to-mq",
+      "name": "发布消息",
+      "type": "event",
+      "sourceId": "publish-registration",
+      "targetId": "registration-mq",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "事件名 UserRegistered v1；通道 user.registered。",
+      "protocol": "异步消息",
+      "condition": "用户记录已提交"
+    },
+    {
+      "id": "mq-to-account",
+      "name": "异步投递",
+      "type": "event",
+      "sourceId": "registration-mq",
+      "targetId": "consume-registration",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "账户系统监听注册事件通道；订阅 / 消费组 account-init。",
+      "protocol": "异步消息",
+      "condition": "消息到达账户系统订阅"
+    },
+    {
+      "id": "consume-to-init",
+      "name": "触发处理",
+      "type": "control",
+      "sourceId": "consume-registration",
+      "targetId": "initialize-account",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "消费动作校验消息后执行账户初始化；成功后确认消息。",
+      "protocol": "",
+      "condition": "消息格式和版本受支持"
+    },
+    {
+      "id": "write-account",
+      "name": "写入账户",
+      "type": "writes",
+      "sourceId": "initialize-account",
+      "targetId": "account-data",
+      "sourcePortId": null,
+      "targetPortId": null,
+      "description": "以 userId 为唯一约束建立账户；重复消息不重复创建。",
+      "protocol": "",
+      "condition": "账户不存在"
+    }
+  ],
+  "iteration": {
+    "id": "iteration-registration-messaging",
+    "name": "注册成功后异步初始化账户",
+    "startedAt": "2026-10-31T10:11:41.591Z",
+    "baseline": {
+      "schemaVersion": 2,
+      "scenarioId": "general",
+      "components": [
+        {
+          "id": "registration-reference",
+          "type": "capability",
+          "boundary": "internal",
+          "templateId": "builtin-capability",
+          "exposed": false,
+          "reference": {
+            "boardId": "fixture-project",
+            "componentId": "signup",
+            "version": "iteration",
+            "iterationId": "45f08b57-1789-4b92-80bb-b9f8db69e4e5",
+            "outputIds": ["registered"],
+            "definitionHash": "b814a36edf4533f4"
+          },
+          "metadata": {},
+          "name": "用户注册",
+          "description": "支持邮箱注册与手机号验证码注册。",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "export-423c9cc6f45c3472",
+              "name": "注册成功",
+              "dataType": "event",
+              "description": "通知后续业务，前端引导用户进入首页。"
+            }
+          ],
+          "ownerId": null,
+          "position": {
+            "x": 40,
+            "y": 100
+          }
+        },
+        {
+          "id": "account-service",
+          "type": "service",
+          "templateId": "builtin-service",
+          "metadata": {
+            "technology": "独立服务；技术栈不限定",
+            "responsibility": "账户资料与账户初始化"
+          },
+          "boundary": "internal",
+          "name": "账户系统",
+          "description": "独立维护账户资料，接收注册消息后执行账户初始化。",
+          "inputs": [],
+          "outputs": [],
+          "ownerId": null,
+          "position": {
+            "x": 1060,
+            "y": 390
+          }
+        }
+      ],
+      "connections": []
+    }
+  },
+  "history": []
+}

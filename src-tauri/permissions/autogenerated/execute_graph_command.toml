@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-execute-graph-command"
+description = "Enables the execute_graph_command command without any pre-configured scope."
+commands.allow = ["execute_graph_command"]
+
+[[permission]]
+identifier = "deny-execute-graph-command"
+description = "Denies the execute_graph_command command without any pre-configured scope."
+commands.deny = ["execute_graph_command"]

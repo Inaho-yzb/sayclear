@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-create-git-iteration"
+description = "Enables the create_git_iteration command without any pre-configured scope."
+commands.allow = ["create_git_iteration"]
+
+[[permission]]
+identifier = "deny-create-git-iteration"
+description = "Denies the create_git_iteration command without any pre-configured scope."
+commands.deny = ["create_git_iteration"]

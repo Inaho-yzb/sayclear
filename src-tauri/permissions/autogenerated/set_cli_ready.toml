@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-set-cli-ready"
+description = "Enables the set_cli_ready command without any pre-configured scope."
+commands.allow = ["set_cli_ready"]
+
+[[permission]]
+identifier = "deny-set-cli-ready"
+description = "Denies the set_cli_ready command without any pre-configured scope."
+commands.deny = ["set_cli_ready"]

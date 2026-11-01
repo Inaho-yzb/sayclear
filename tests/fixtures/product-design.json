@@ -1,0 +1,271 @@
+{
+  "name": "产品设计",
+  "description": "围绕用户、页面、操作、规则、数据和反馈，描述产品从用户意图到结果呈现的完整体验。",
+  "exampleName": "产品设计示例 · 用户注册",
+  "components": [
+    {
+      "name": "用户角色",
+      "typeLabel": "角色",
+      "description": "描述谁在使用产品，以及希望达成的目标。",
+      "input": "使用情境",
+      "output": "用户意图",
+      "fields": [
+        {
+          "name": "用户目标",
+          "type": "text",
+          "required": true,
+          "defaultValue": ""
+        },
+        {
+          "name": "使用频率",
+          "type": "text",
+          "required": false,
+          "defaultValue": "首次使用"
+        },
+        {
+          "name": "核心用户",
+          "type": "boolean",
+          "required": true,
+          "defaultValue": "true"
+        }
+      ],
+      "example": {
+        "name": "新用户",
+        "description": "首次访问产品，希望创建账号并开始使用。",
+        "values": ["创建账号并开始使用产品", "首次使用", "true"],
+        "position": {
+          "x": 30,
+          "y": 70
+        }
+      }
+    },
+    {
+      "name": "页面",
+      "typeLabel": "交互界面",
+      "description": "定义页面入口、核心目标与访问条件。",
+      "input": "访问请求",
+      "output": "表单内容",
+      "fields": [
+        {
+          "name": "页面路径",
+          "type": "text",
+          "required": true,
+          "defaultValue": ""
+        },
+        {
+          "name": "页面目标",
+          "type": "text",
+          "required": true,
+          "defaultValue": ""
+        },
+        {
+          "name": "需要登录",
+          "type": "boolean",
+          "required": true,
+          "defaultValue": "false"
+        }
+      ],
+      "example": {
+        "name": "注册页面",
+        "description": "展示邮箱、密码与协议选项，引导完成注册。",
+        "values": ["/signup", "收集注册信息并获得用户同意", "false"],
+        "position": {
+          "x": 350,
+          "y": 70
+        }
+      }
+    },
+    {
+      "name": "用户操作",
+      "typeLabel": "行为",
+      "description": "描述用户触发的操作及期望结果。",
+      "input": "表单内容",
+      "output": "注册申请",
+      "fields": [
+        {
+          "name": "触发方式",
+          "type": "text",
+          "required": true,
+          "defaultValue": "点击"
+        },
+        {
+          "name": "期望结果",
+          "type": "text",
+          "required": true,
+          "defaultValue": ""
+        },
+        {
+          "name": "优先级",
+          "type": "text",
+          "required": true,
+          "defaultValue": "P1"
+        }
+      ],
+      "example": {
+        "name": "提交注册",
+        "description": "用户点击注册按钮，将已填写的信息提交校验。",
+        "values": ["点击注册按钮", "完成账号注册", "P0"],
+        "position": {
+          "x": 350,
+          "y": 380
+        }
+      }
+    },
+    {
+      "name": "业务规则",
+      "typeLabel": "规则",
+      "description": "明确处理条件与不满足条件时的提示。",
+      "input": "注册申请",
+      "output": "校验结果",
+      "fields": [
+        {
+          "name": "规则描述",
+          "type": "text",
+          "required": true,
+          "defaultValue": ""
+        },
+        {
+          "name": "失败提示",
+          "type": "text",
+          "required": true,
+          "defaultValue": ""
+        },
+        {
+          "name": "阻断流程",
+          "type": "boolean",
+          "required": true,
+          "defaultValue": "true"
+        }
+      ],
+      "example": {
+        "name": "校验注册信息",
+        "description": "检查邮箱格式、密码长度和协议勾选状态。",
+        "values": [
+          "邮箱格式正确，密码不少于 8 位，已勾选协议",
+          "请检查邮箱、密码并同意用户协议",
+          "true"
+        ],
+        "position": {
+          "x": 670,
+          "y": 380
+        }
+      }
+    },
+    {
+      "name": "数据对象",
+      "typeLabel": "数据对象",
+      "description": "定义业务数据的字段、唯一标识与数据性质。",
+      "input": "校验结果",
+      "output": "账号状态",
+      "fields": [
+        {
+          "name": "关键字段",
+          "type": "text",
+          "required": true,
+          "defaultValue": ""
+        },
+        {
+          "name": "唯一标识",
+          "type": "text",
+          "required": true,
+          "defaultValue": "id"
+        },
+        {
+          "name": "包含个人信息",
+          "type": "boolean",
+          "required": true,
+          "defaultValue": "false"
+        }
+      ],
+      "example": {
+        "name": "用户账号",
+        "description": "创建用户记录并返回账号标识；这里只描述设计，不保存真实用户信息。",
+        "values": ["userId、email、passwordHash、createdAt", "userId", "true"],
+        "position": {
+          "x": 990,
+          "y": 380
+        }
+      }
+    },
+    {
+      "name": "结果反馈",
+      "typeLabel": "交互界面",
+      "description": "定义用户看到的结果、下一步与反馈持续时间。",
+      "input": "账号状态",
+      "output": "下一步动作",
+      "fields": [
+        {
+          "name": "反馈文案",
+          "type": "text",
+          "required": true,
+          "defaultValue": ""
+        },
+        {
+          "name": "下一步动作",
+          "type": "text",
+          "required": true,
+          "defaultValue": ""
+        },
+        {
+          "name": "展示秒数",
+          "type": "number",
+          "required": true,
+          "defaultValue": "3"
+        }
+      ],
+      "example": {
+        "name": "注册结果反馈",
+        "description": "成功后引导进入首页；失败时展示具体原因并允许修改。",
+        "values": ["注册成功，欢迎使用", "成功进入首页，失败返回表单修改", "3"],
+        "position": {
+          "x": 990,
+          "y": 70
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "source": "新用户",
+      "target": "注册页面",
+      "name": "进入注册页",
+      "type": "control",
+      "condition": "点击注册入口"
+    },
+    {
+      "source": "注册页面",
+      "target": "提交注册",
+      "name": "填写并提交",
+      "type": "data",
+      "condition": "用户完成表单"
+    },
+    {
+      "source": "提交注册",
+      "target": "校验注册信息",
+      "name": "请求校验",
+      "type": "data",
+      "condition": "用户点击注册"
+    },
+    {
+      "source": "校验注册信息",
+      "target": "用户账号",
+      "name": "创建账号",
+      "type": "data",
+      "condition": "全部校验通过"
+    },
+    {
+      "source": "用户账号",
+      "target": "注册结果反馈",
+      "name": "展示成功",
+      "type": "data",
+      "condition": "账号创建成功"
+    },
+    {
+      "source": "校验注册信息",
+      "target": "注册结果反馈",
+      "name": "提示校验失败",
+      "type": "event",
+      "condition": "任一校验失败"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-validate-catalog"
+description = "Enables the validate_catalog command without any pre-configured scope."
+commands.allow = ["validate_catalog"]
+
+[[permission]]
+identifier = "deny-validate-catalog"
+description = "Denies the validate_catalog command without any pre-configured scope."
+commands.deny = ["validate_catalog"]

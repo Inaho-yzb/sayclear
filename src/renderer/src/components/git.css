@@ -1,0 +1,111 @@
+.git-settings {
+  padding: 24px;
+}
+.git-settings > .settings-row {
+  padding: 0;
+  margin-bottom: 20px;
+  border-bottom: 0;
+}
+.git-settings h3,
+.iteration-git-heading {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.git-address-form > label,
+.git-local-path {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+.git-address-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.git-address-input-row input {
+  min-width: 0;
+  flex: 1;
+}
+.git-address-input-row button {
+  flex-shrink: 0;
+}
+.git-local-path {
+  margin-top: 20px;
+}
+.git-loading {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.git-settings-fields {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  margin-top: 16px;
+}
+.git-settings-fields label,
+.iteration-git-fields label {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.git-settings-fields select,
+.iteration-git-fields input,
+.iteration-git-fields select {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--surface);
+  font: inherit;
+}
+.git-settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+.git-saved {
+  color: var(--accent);
+  font-size: 12px;
+}
+.iteration-git-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-soft);
+}
+.iteration-git-heading {
+  font-size: 12px;
+}
+.iteration-git-heading button {
+  margin-left: auto;
+}
+.iteration-git-path {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+.iteration-git-branch {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  font-family: monospace;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+  color: var(--text-secondary);
+}

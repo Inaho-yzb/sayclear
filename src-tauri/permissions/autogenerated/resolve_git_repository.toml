@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-resolve-git-repository"
+description = "Enables the resolve_git_repository command without any pre-configured scope."
+commands.allow = ["resolve_git_repository"]
+
+[[permission]]
+identifier = "deny-resolve-git-repository"
+description = "Denies the resolve_git_repository command without any pre-configured scope."
+commands.deny = ["resolve_git_repository"]

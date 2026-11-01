@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-load-ai-settings"
+description = "Enables the load_ai_settings command without any pre-configured scope."
+commands.allow = ["load_ai_settings"]
+
+[[permission]]
+identifier = "deny-load-ai-settings"
+description = "Denies the load_ai_settings command without any pre-configured scope."
+commands.deny = ["load_ai_settings"]
